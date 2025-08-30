@@ -2,7 +2,6 @@ package click_service
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/go-vgo/robotgo"
@@ -34,13 +33,9 @@ func (p *ClickerConfig) ClickingStart(ctx context.Context) {
 			}
 		default:
 			{
-				time.Sleep(time.Second * time.Duration(p.Delimetr))
-				fmt.Println(robotgo.Location())
+				time.Sleep(time.Millisecond * 100 * time.Duration(p.Delimetr))
+				robotgo.Click()
 			}
 		}
 	}
-}
-
-func (p *ClickerConfig) TestReuse() {
-	fmt.Println("TEST")
 }
