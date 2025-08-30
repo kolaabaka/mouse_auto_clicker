@@ -6,20 +6,36 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
-	"sync"
 	"time"
 )
 
 func main() {
-	var wg sync.WaitGroup
-	wg.Add(1)
+	runeChanel := make(chan rune)
+	var ctx context.Context
+	var cancelFunc func()
 
-	p := click_service.ClickerConfig{Delimetr: 10}
+	clicker := click_service.ClickerConfig{Delimetr: 1}
+	go click_service.TakePressedValue(runeChanel)
 
-	contextBackground := context.Background()
-	contextBackground, _ = context.WithTimeout(contextBackground, time.Second*3)
-	go p.ClickingStart(contextBackground, &wg)
-	wg.Wait()
+	for {
+		switch <-runeChanel {
+		case 's':
+			ctx = context.Background()
+			ctx, cancelFunc = context.WithCancel(ctx)
+			go clicker.ClickingStart(ctx)
+		case 'e':
+			clicker.IncreaseTiming()
+		case 'p':
+			if cancelFunc != nil {
+				cancelFunc()
+			}
+		case 't':
+			clicker.TestReuse()
+		case 'x':
+			return
+		default:
+		}
+	}
 }
 
 func ClearScreen() {

@@ -3,7 +3,6 @@ package click_service
 import (
 	"context"
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/go-vgo/robotgo"
@@ -23,8 +22,7 @@ func (p *ClickerConfig) ReduceTiming() {
 	}
 }
 
-func (p *ClickerConfig) ClickingStart(ctx context.Context, wg *sync.WaitGroup) {
-	defer wg.Done()
+func (p *ClickerConfig) ClickingStart(ctx context.Context) {
 	if p.Delimetr <= 0 {
 		p.Delimetr = 1
 	}
@@ -36,9 +34,13 @@ func (p *ClickerConfig) ClickingStart(ctx context.Context, wg *sync.WaitGroup) {
 			}
 		default:
 			{
-				time.Sleep(time.Millisecond * time.Duration(p.Delimetr))
+				time.Sleep(time.Second * time.Duration(p.Delimetr))
 				fmt.Println(robotgo.Location())
 			}
 		}
 	}
+}
+
+func (p *ClickerConfig) TestReuse() {
+	fmt.Println("TEST")
 }

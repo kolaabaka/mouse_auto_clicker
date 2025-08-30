@@ -2,7 +2,10 @@ module mouse_auto_clicker
 
 go 1.24.3
 
-require github.com/go-vgo/robotgo v0.110.8
+require (
+	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
+	github.com/go-vgo/robotgo v0.110.8
+)
 
 require (
 	github.com/dblohm7/wingoes v0.0.0-20250822163801-6d8e6105c62d // indirect
