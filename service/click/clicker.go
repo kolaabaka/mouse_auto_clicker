@@ -21,10 +21,12 @@ func (p *ClickerConfig) ReduceTiming() {
 	}
 }
 
-func (p *ClickerConfig) ClickingStart(ctx context.Context) {
+func (p *ClickerConfig) ClickingStart(xPosition int, yPosition int, delay int, ctx context.Context) {
 	if p.Delimetr <= 0 {
 		p.Delimetr = 1
 	}
+	time.Sleep(time.Second * time.Duration(delay))
+	robotgo.Move(xPosition, yPosition)
 	for {
 		select {
 		case <-ctx.Done():
